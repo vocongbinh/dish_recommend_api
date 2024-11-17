@@ -3,12 +3,19 @@ from pydantic import BaseModel,conlist
 from typing import List,Optional
 import pandas as pd
 from model import recommend,output_recommended_recipes
-
+from fastapi.middleware.cors import CORSMiddleware
 
 dataset=pd.read_csv('../Data/recipes.csv')
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all HTTP methods (GET, POST, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 class params(BaseModel):
     n_neighbors:int=5
